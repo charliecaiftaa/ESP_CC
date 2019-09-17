@@ -124,7 +124,7 @@ requirejs(['./WorldWindShim',
             col,
             colo;
 
-        var LayerInfo = [], CoordinateLatInfo = [], CoordinateLongInfo = [], listLoca = [];
+        var LayerInfo = [], CoordinateLatInfo = [], CoordinateLongInfo = [];
 
         //This wmsLayer used to be switch_right but it's different on this project so I changed it
         $('.switch_right').click(function() {
@@ -132,41 +132,44 @@ requirejs(['./WorldWindShim',
             console.log("Initial:" + layers.length);
             // console.log (layers);
             // console.log ("last displayN: " + layers[layers.length-1].displayName);
-            // console.log((':checkbox:checked').length);
 
-            // console.log($(this).prop('checked'));
             for (var b = 0; b < layers.length; b++) {
+                // console.log("Current Toggle: " + CurrentToggleVal);
+                // console.log ("layer [" + b + "]: " + layers[b].displayName);
                 if (layers[b].displayName === CurrentToggleVal) {
+                    console.log($(':checkbox:checked').length);
+                    if ($(':checkbox:checked').length !== 0) {
+                        console.log("a");
+                        $(':checkbox:checked').each(function (i){
+                            // console.log ("[" + i + "]: "+ $(this).val());
+                            if ($(this).val() === CurrentToggleVal) {
+                                console.log ("True");
+                                layers[b].enabled = true;
+                                return false
+                            } else {
+                                if (i === $(':checkbox:checked').length -1) {
+                                    console.log ("False");
+                                    layers[b].enabled = false;
+                                }
+                            }
 
-                    if ($(this).prop('checked')) {
-                        console.log("open");
-                        layers[b].enabled = true;
-
-                        // $(':checkbox:checked').each(function () {
-                        //
-                        // });
-                        // if (CurrentToggleVal === (":checkbox:checked")) {
-                        //
-                        // }
+                        });
+                        break
 
                     } else {
-                        console.log("closed");
+                        console.log ("False 0");
                         layers[b].enabled = false;
-
+                        break
                     }
-                    break;
-
                 } else {
                     if (b === layers.length - 1) {
                         console.log("new");
-
                         $.getJSON("LayerNCC.json", function (layer) {
                             for (j = 0; j < layer.length; j++) {
 
                                 if (CurrentToggleVal === layer[j].Layer_Name) {
                                     LayerInfo.push(layer[j]);
                                     loca = layer[j].Latitude_and_Longitude_Decimal;
-                                    listLoca.push(loca);
                                     locat = loca.split(",");
                                     col = layer[j].Color;
                                     colo = col.split(" ");
@@ -174,12 +177,14 @@ requirejs(['./WorldWindShim',
                                     CreatePlacemarkLayer(locat, colo, laname);
                                     console.log("Ending Loop:" + layers.length);
                                     // console.log ("displayN last: " + layers[layers.length-1].displayName);
+
                                 }
                             }
                         });
                     }
                 }
             }
+
             // for (var b = 0; b < layers.length; b++) {
             //     if ($('.switch_right').is(":checkbox:checked")) {
             //         console.log("yes");
@@ -307,11 +312,8 @@ requirejs(['./WorldWindShim',
 
         var sitePopUp = function(jsonobj) {
             var sitename, sitedesc, picpath, siteurl;
-            var latlong = jsonobj.latitude + "," + jsonobj.longitude;
-            var popupBodyItem = $("#modalBody");
-            $(popupBodyItem).children().remove();
-
             // var popupBodyItem, popupBodyName, popupBodyDesc, popupBodyImg, popupBodyURL;
+
             // $.getJSON(popupjsonpath, function (res) {
             //     //Get site information.
             //     for (var n = 0; n < res.length; n++) {
@@ -338,20 +340,26 @@ requirejs(['./WorldWindShim',
             // $.getJSON( "LayerNCC.json", function (jason) {  });
             // var lat = jsonobj.latitude;
             // var long = jsonobj.longitude;
+            var latlong = jsonobj.latitude + "," + jsonobj.longitude;
             // console.log (loca);
 
             for (var z = 0; z < LayerInfo.length; z++) {
 
-                if (listLoca[z] === latlong) {
+                if (loca === latlong) {
                     sitename = LayerInfo[z].Site_Name;
                     picpath = "../images/Placemark_Images/" + LayerInfo[z].Picture_Location;
                     sitedesc = LayerInfo[z].Site_Description;
                     siteurl = LayerInfo[z].Link_to_site_Location;
+                    // console.log(picpath);
                     break;
                 }
             }
 
+
             //Insert site information into indexTest.html.
+            var popupBodyItem = $("#modalBody");
+            popupBodyItem.children().remove();
+
             var popupBodyName = $('<p class="site-name"><h4>' + sitename + '</h4></p>');
             var popupBodyDesc = $('<p class="site-description">' + sitedesc + '</p><br>');
             var popupBodyImg = $('<img class="site-img" src="' + picpath + '" width=100% height=auto /><br>');
@@ -361,6 +369,7 @@ requirejs(['./WorldWindShim',
             popupBodyItem.append(popupBodyDesc);
             popupBodyItem.append(popupBodyImg);
             popupBodyItem.append(popupBodyURL);
+
         };
 
         var handleMouseCLK = function (o) {
@@ -378,7 +387,7 @@ requirejs(['./WorldWindShim',
             // console.log(pickList.objects[0]);
             for (var q = 0; q < pickList.objects.length; q++) {
                 var pickedPL = pickList.objects[q].userObject;
-                // console.log (pickedPL);
+                console.log (pickedPL);
                 if (pickedPL instanceof WorldWind.Placemark) {
                     console.log (pickedPL.position.latitude);
                     sitePopUp(pickedPL.position);
@@ -422,3 +431,4 @@ requirejs(['./WorldWindShim',
         var tapRecognizer = new WorldWind.TapRecognizer(globe, handleMouseCLK);
 
     });
+
