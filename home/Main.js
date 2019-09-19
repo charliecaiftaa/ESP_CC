@@ -16,18 +16,11 @@
 
 requirejs(['./WorldWindShim',
         './LayerManager',
-        './OptionList',
-        '../src/heatmap/GlobeInterface',
-        '../src/heatmap/Globe',
-        '../src/heatmap/Controls',
-        '../src/heatmap/HeatmapPanel'],
+        './OptionList'],
     function (WorldWind,
               LayerManager,
               OptionList,
-              GlobeInterface,
-              Globe,
-              Controls,
-              HeatmapPanel) {
+              ) {
         "use strict";
 
         var globe = new Globe({id: "canvasOne"});
