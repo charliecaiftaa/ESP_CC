@@ -34,6 +34,23 @@
         }
     }
 
+    function button() {
+        $.getJSON("LayerNCC.json", function (layer) {
+            var CurrentToggleVal = $(this).val();
+            console.log(CurrentToggleVal);
+            for (var j = 0; j < layer.length; j++) {
+
+                if (CurrentToggleVal === layer[j].Layer_Name) {
+                    CreatePopupBox(layer[j]);
+                }
+            }
+        });
+    }
+
+    var CreatePopupBox = function (layerinfo) {
+        console.log("It works 3000");
+    }
+    
 </script>
 
 <body>
@@ -80,23 +97,23 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td><input type="checkbox" onclick="toggle(this)"> All<br></td>
+                        <td><input type="checkbox" onclick="toggle(this)" value="Station 1-2"> All<br></td>
                     </tr>
                     <tr>
                         <td>Station 1</td>
                         <td><input class="switch right switch_right myModal" type="checkbox" value="Station 1" name="Station"></td>
                         <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox" name="I">Info</td>
-                        <td><input type="checkbox" name="H">History</td>
+                        <td><button onclick="button()"></button></td>
+                        <td><button onclick="button()">I</button></td>
+                        <td><button onclick="button()">H</button></td>
                     </tr>
                     <tr>
                         <td>Station 2</td>
                         <td><input class="switch right switch_right myModal" type="checkbox" value="Station 2" name="Station"></td>
                         <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox">Info</td>
-                        <td><input type="checkbox">History</td>
+                        <td><button onclick="button()"></button></td>
+                        <td><button onclick="button()">I</button></td>
+                        <td><button onclick="button()">H</button></td>
                     </tr>
 
                 </table>
