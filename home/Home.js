@@ -710,7 +710,7 @@ requirejs(['./newGlobe'
     //
     //             $(document).ready(function () {
     //
-    //                 var modal = document.getElementById('myModal');
+    //                 var modal = document.getElementById('Modal');
     //
     //
     //                 var span = document.getElementsByClassName("close")[0];

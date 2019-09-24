@@ -17,28 +17,135 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script data-main="Home.js" src="requirejs-2.3.6.min.js"></script>
 
+    <!-- Modal -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 <!--    <script src="Main.js"></script>-->
     <style>
         body {font-family: Arial, Helvetica, sans-serif;}
 
-
+        .btnsize {
+            width: 30%;
+            height: 20%;
+        }
     </style>
 </head>
 
 <script>
 
+    // requirejs(['./newGlobe'],
+    //     function (newGlobe) {
+    //
+    //     "use strict";
+    //
+    //         newGlobe.goTo(new WorldWind.Position(37.0902, -95.7129, 10000000));
+    //
+    //         function toggle(source) {
+    //             let CurrentToggleVal = $(this).val();
+    //
+    //             let layers = newGlobe.layers;
+    //
+    //             let laname,
+    //                 loca,
+    //                 locat,
+    //                 col,
+    //                 colo;
+    //
+    //             // let LayerInfo = [];
+    //             // let listLoca = [];
+    //
+    //             let checkboxes = document.getElementsByName('Station');
+    //             for(let i = 0, n = checkboxes.length; i < n; i++) {
+    //                 checkboxes[i].checked = source.checked;
+    //
+    //                 if (i === layers.length - 1) {
+    //
+    //                     $.getJSON("LayerNCC.json", function (layer) {
+    //                         for (let j = 0; j < layer.length; j++) {
+    //
+    //                             if (CurrentToggleVal === layer[j].Layer_Name) {
+    //                                 // LayerInfo.push(layer[j]);
+    //                                 loca = layer[j].Latitude_and_Longitude_Decimal;
+    //                                 // listLoca.push(loca);
+    //                                 locat = loca.split(",");
+    //                                 col = layer[j].Color;
+    //                                 colo = col.split(" ");
+    //                                 laname = layer[j].Layer_Name;
+    //                                 CreatePlacemarkLayer(locat, colo, laname);
+    //                             }
+    //                         }
+    //                     });
+    //                 }
+    //             }
+    //         }
+    //
+    //         let CreatePlacemarkLayer = function (location, pcolor, lname) {
+    //             let placemark;
+    //             let placemarkAttributes;
+    //             let highlightAttributes;
+    //
+    //             placemark = new WorldWind.Placemark(new WorldWind.Position(location[0], location[1], 1e2), false, null);
+    //             placemark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
+    //
+    //             let canvas = document.createElement("canvas"),
+    //                 ctx2d = canvas.getContext("2d"),
+    //                 size = 64, c = size / 2 - 0.5, innerRadius = 5, outerRadius = 20;
+    //
+    //             canvas.width = size;
+    //             canvas.height = size;
+    //
+    //             let gradient = ctx2d.createRadialGradient(c, c, innerRadius, c, c, outerRadius);
+    //             gradient.addColorStop(0, pcolor[0]);
+    //             gradient.addColorStop(0.5, pcolor[1]);
+    //             gradient.addColorStop(1, pcolor[2]);
+    //
+    //             ctx2d.fillStyle = gradient;
+    //             ctx2d.arc(c, c, outerRadius, 0, 2 * Math.PI, false);
+    //             ctx2d.fill();
+    //
+    //             placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
+    //             placemarkAttributes.imageSource = new WorldWind.ImageSource(canvas);
+    //             placemark.attributes = placemarkAttributes;
+    //
+    //             let placemarkLayer = new WorldWind.RenderableLayer(lname);
+    //             placemarkAttributes.imageScale = 0.35;
+    //             placemarkAttributes.imageOffset = new WorldWind.Offset(
+    //                 WorldWind.OFFSET_FRACTION, 0.5,
+    //                 WorldWind.OFFSET_FRACTION, 0.5);
+    //             placemarkAttributes.imageColor = WorldWind.Color.WHITE;
+    //
+    //
+    //             highlightAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
+    //             highlightAttributes.imageScale = 50/100;
+    //             placemark.highlightAttributes = highlightAttributes;
+    //
+    //             placemarkLayer.addRenderable(placemark);
+    //
+    //             placemarkLayer.enabled = true;
+    //
+    //             newGlobe.addLayer(placemarkLayer);
+    //         };
+    //
+    //
+    //         toggle();
+    //     });
+
     function toggle(source) {
-        checkboxes = document.getElementsByName('Station');
-        for(var i = 0, n = checkboxes.length; i < n; i++) {
+        let checkboxes = document.getElementsByName('Station');
+        for(let i = 0, n = checkboxes.length; i < n; i++) {
             checkboxes[i].checked = source.checked;
         }
     }
 
+
     function button() {
         $.getJSON("LayerNCC.json", function (layer) {
-            var CurrentToggleVal = $(this).val();
+            let CurrentToggleVal = $(this).val();
             console.log(CurrentToggleVal);
-            for (var j = 0; j < layer.length; j++) {
+            for (let j = 0; j < layer.length; j++) {
 
                 if (CurrentToggleVal === layer[j].Layer_Name) {
                     CreatePopupBox(layer[j]);
@@ -47,35 +154,36 @@
         });
     }
 
-    var CreatePopupBox = function (layerinfo) {
+    let CreatePopupBox = function (layerinfo) {
+        console.log(layerinfo);
         console.log("It works 3000");
-    }
-    
+    };
+
 </script>
 
 <body>
 
-    <div id = "myModal" class = "modal">
-        <div class = "modal-content">
-            <!-- Popup Box Header -->
-            <div class = "modalHeader">
-                <p id = "modalHeader">
-                    <br>
-                </p>
-                <p><span class = "close">&times;</span></p>
-            </div>
+<!--    <div id = "myModal" class = "modal">-->
+<!--        <div class = "modal-content">-->
+<!--            &lt;!&ndash; Popup Box Header &ndash;&gt;-->
+<!--            <div class = "modalHeader">-->
+<!--                <p id = "modalHeader">-->
+<!--                    <br>-->
+<!--                </p>-->
+<!--                <p><span class = "close">&times;</span></p>-->
+<!--            </div>-->
 
-            <!-- Popup Box Body -->
-            <p class = "modal-body" id = "modalBody">
+<!--            &lt;!&ndash; Popup Box Body &ndash;&gt;-->
+<!--            <p class = "modal-body" id = "modalBody">-->
 
-            </p>
+<!--            </p>-->
 
-            <!-- Popup Box Footer -->
-            <div class = "modal-footer">
-                <p></p>
-            </div>
-        </div>
-    </div>
+<!--            &lt;!&ndash; Popup Box Footer &ndash;&gt;-->
+<!--            <div class = "modal-footer">-->
+<!--                <p></p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <div class="container">
         <div>
@@ -103,17 +211,17 @@
                         <td>Station 1</td>
                         <td><input class="switch right switch_right myModal" type="checkbox" value="Station 1" name="Station"></td>
                         <td><input type="checkbox"></td>
-                        <td><button onclick="button()"></button></td>
-                        <td><button onclick="button()">I</button></td>
-                        <td><button onclick="button()">H</button></td>
+                        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal"></button></td>
+                        <td><button onclick="button()" class="btn btn-info btn-lg btnsize" data-toggle="modal" data-target="#Modal">I</button></td>
+                        <td><button onclick="button()" class="btn btn-info btn-lg btnsize" data-toggle="modal" data-target="#Modal">H</button></td>
                     </tr>
                     <tr>
                         <td>Station 2</td>
                         <td><input class="switch right switch_right myModal" type="checkbox" value="Station 2" name="Station"></td>
                         <td><input type="checkbox"></td>
-                        <td><button onclick="button()"></button></td>
-                        <td><button onclick="button()">I</button></td>
-                        <td><button onclick="button()">H</button></td>
+                        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal"></button></td>
+                        <td><button onclick="button()" class="btn btn-info btn-lg btnsize" data-toggle="modal" data-target="#Modal">I</button></td>
+                        <td><button onclick="button()" class="btn btn-info btn-lg btnsize" data-toggle="modal" data-target="#Modal">H</button></td>
                     </tr>
 
                 </table>
@@ -127,6 +235,26 @@
 
             </div>
 
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="Modal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Some text in the modal.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
