@@ -46,29 +46,5 @@
     "Copyright": "Free to Use",
     "Layer_Name": "Station 1-2",
     "Color": "rgb(100,50,255) rgb(209,221,250) rgb(100,50,255)"
-  },
-  {
-    "Location": "Station 1"
-    "Site_Name": "Station 1",
-    "Site_Description": "Earthquake sensor",
-    "Latitude_and_Longitude_DegMinSec": "N40 59 39.3,     W74 16 44.6838",
-    "Latitude_and_Longitude_Decimal": "40.994250, -74.279079",
-    "Link_to_site_location": "",
-    "Picture_Location": "",
-    "Copyright": "Free to Use",
-    "Layer_Name": "Station 1-2",
-    "Color": "rgb(187,0,255) rgb(0,255,0) rgb(187,0,255)"
-  },
-  {
-    "Location": "Station 2",
-    "Site_Name": "Station 2",
-    "Site_Description": "Earthquake Sensor",
-    "Latitude_and_Longitude_DegMinSec": "N41 48 47.8,     W112 1 35.7",
-    "Latitude_and_Longitude_Decimal": "41.813291, -112.026575",
-    "Link_to_site_location": "",
-    "Picture_Location": "",
-    "Copyright": "Free to Use",
-    "Layer_Name": "Station 1-2",
-    "Color": "rgb(100,50,255) rgb(209,221,250) rgb(100,50,255)"
   }
 ]
