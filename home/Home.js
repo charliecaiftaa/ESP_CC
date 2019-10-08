@@ -553,64 +553,145 @@ requirejs(['./newGlobe'
 
     var layers = newGlobe.layers;
 
-    var laname,
-        j,
-        loca,
+    var j,
+        loca
+        ,laname,
         locat,
         col,
-        colo,
-        checkboxes;
+        colo
+        // ,checkboxes
+        ;
 
-    var LayerInfo = [],
+    var LayerInfo = []
         // CoordinateLatInfo = [], CoordinateLongInfo = [],
-        listLoca = [];
+        ;
 
-
-    $('.switch_right').click(function() {
+    $('.btn').click(function() {
         var CurrentToggleVal = $(this).val();
-        console.log(CurrentToggleVal);
 
-        for (var b = 0; b < layers.length; b++) {
-            console.log("Hello");
-            if (layers[b].displayName === CurrentToggleVal) {
-                console.log(layers[b].displayName);
+        $.getJSON("LayerNCC.json", function (layer) {
+            for (j = 0; j < layer.length; j++) {
 
-                if ($(this).prop('checked')) {
-                    console.log("open");
-                    layers[b].enabled = true;
-
-                } else {
-                    console.log("closed");
-                    layers[b].enabled = false;
-
-                }
-                break;
-
-            } else {
-                if (b === layers.length - 1) {
-                    console.log("new");
-
-                    $.getJSON("LayerNCC.json", function (layer) {
-                        for (j = 0; j < layer.length; j++) {
-
-                            if (CurrentToggleVal === layer[j].Layer_Name) {
-                                LayerInfo.push(layer[j]);
-                                loca = layer[j].Latitude_and_Longitude_Decimal;
-                                listLoca.push(loca);
-                                locat = loca.split(",");
-                                col = layer[j].Color;
-                                colo = col.split(" ");
-                                laname = layer[j].Layer_Name;
-                                CreatePlacemarkLayer(locat, colo, laname);
-                                console.log("Ending Loop:" + layers.length);
-                            }
-                        }
-                    });
+                if (CurrentToggleVal === layer[j].Layer_Name) {
+                    LayerInfo.push(layer[j]);
+                    loca = layer[j].Latitude_and_Longitude_Decimal;
+                    listLoca.push(loca);
+                    buttonPopUp(LayerInfo);
                 }
             }
-        }
+        });
 
     });
+
+    $('.plckJSON').click(function () {
+        // var CurrentToggleVal = $(this).val();
+        // // var getValue = document.getElementsByName('Placemark');
+        // // console.log(getValue);
+        //
+        // for (var b = 0; b < layers.length; b++) {
+        //     if (layers[b].displayName === CurrentToggleVal) {
+        //         console.log(layers[b].displayName);
+        //
+        //         if ($(this).prop('checked')) {
+        //             console.log("open");
+        //             layers[b].enabled = true;
+        //
+        //         } else {
+        //             console.log("closed");
+        //             layers[b].enabled = false;
+        //
+        //         }
+        //         break;
+        //
+        //     } else {
+        //         if (b === layers.length - 1) {
+        //             console.log("new");
+        //
+        //             $.getJSON("LayerNCC.json", function (layer) {
+        //                 for (j = 0; j < layer.length; j++) {
+        //
+        //                     if ("Placemark" === layer[j].Layer_Name) {
+        //                         LayerInfo.push(layer[j]);
+        //                         loca = layer[j].Latitude_and_Longitude_Decimal;
+        //                         locat = loca.split(",");
+        //                         col = layer[j].Color;
+        //                         colo = col.split(" ");
+        //                         laname = layer[j].Layer_Name;
+        //                         CreatePlacemarkLayer(locat, colo, laname);
+        //                         console.log("Ending Loop:" + layers.length);
+        //                     }
+        //                 }
+        //             });
+        //         }
+        //     }
+        // }
+
+        $.getJSON("LayerNCC.json", function (layer) {
+            for (j = 0; j < layer.length; j++) {
+
+                if ("Placemark" === layer[j].Layer_Type) {
+                    console.log(layer[j].Layer_Type);
+                    LayerInfo.push(layer[j]);
+                    loca = layer[j].Latitude_and_Longitude_Decimal;
+                    locat = loca.split(",");
+                    col = layer[j].Color;
+                    colo = col.split(" ");
+                    laname = layer[j].Layer_Name;
+                    CreatePlacemarkLayer(locat, colo, laname);
+                    console.log("Ending Loop:" + layers.length);
+                }
+            }
+        });
+    });
+
+
+    // Used if wanted to immediately create a placemark when the checkbox is checked
+    // Since the Show On Globe is the submit button, this code is unnecessary
+    //
+    // $('.switch_right').click(function() {
+    //     var CurrentToggleVal = $(this).val();
+    //     console.log(CurrentToggleVal);
+    //
+    //     for (var b = 0; b < layers.length; b++) {
+    //         if (layers[b].displayName === CurrentToggleVal) {
+    //             // console.log(layers[b].displayName);
+    //
+    //             if ($(this).prop('checked')) {
+    //                 console.log("open");
+    //                 layers[b].enabled = true;
+    //
+    //             } else {
+    //                 console.log("closed");
+    //                 layers[b].enabled = false;
+    //
+    //             }
+    //             break;
+    //
+    //         } else {
+    //             if (b === layers.length - 1) {
+    //                 console.log("new");
+    //
+    //                 $.getJSON("LayerNCC.json", function (layer) {
+    //                     for (j = 0; j < layer.length; j++) {
+    //
+    //                         if (CurrentToggleVal === layer[j].Layer_Name) {
+    //                             LayerInfo.push(layer[j]);
+    //                             loca = layer[j].Latitude_and_Longitude_Decimal;
+    //                             listLoca.push(loca);
+    //                             locat = loca.split(",");
+    //                             col = layer[j].Color;
+    //                             colo = col.split(" ");
+    //                             laname = layer[j].Layer_Name;
+    //                             CreatePlacemarkLayer(locat, colo, laname);
+    //                             console.log("Ending Loop:" + layers.length);
+    //                         }
+    //                     }
+    //                 });
+    //             }
+    //         }
+    //     }
+    //
+    // });
 
     var CreatePlacemarkLayer = function (location, pcolor, lname) {
         var placemark;
@@ -662,36 +743,37 @@ requirejs(['./newGlobe'
     };
 
 
-
-    var sitePopUp = function(jsonobj) {
-        var sitename, sitedesc, picpath, siteurl;
-        var latlong = jsonobj.latitude + "," + jsonobj.longitude;
-        var popupBodyItem = $("#modalBody");
-        $(popupBodyItem).children().remove();
-
-
-        for (var z = 0; z < LayerInfo.length; z++) {
-
-            if (listLoca[z] === latlong) {
-                sitename = LayerInfo[z].Site_Name;
-                picpath = "../images/Placemark_Images/" + LayerInfo[z].Picture_Location;
-                sitedesc = LayerInfo[z].Site_Description;
-                siteurl = LayerInfo[z].Link_to_site_Location;
-                break;
-            }
-        }
-
-        var popupBodyName = $('<p class="site-name"><h4>' + sitename + '</h4></p>');
-        var popupBodyDesc = $('<p class="site-description">' + sitedesc + '</p><br>');
-        var popupBodyImg = $('<img class="site-img" src="' + picpath + '" width=100% height=auto /><br>');
-        var popupBodyURL = $('<p class="site-URL">Please click <a href="' + siteurl + '" target="_blank"><span id="href"><b>here</b></span></a> for more detailed information</p>');
-
-        popupBodyItem.append(popupBodyName);
-        popupBodyItem.append(popupBodyDesc);
-        popupBodyItem.append(popupBodyImg);
-        popupBodyItem.append(popupBodyURL);
-    };
-
+    // Placemark Popup
+    // var sitePopUp = function(jsonobj) {
+    //     var sitename, sitedesc, picpath, siteurl;
+    //     var latlong = jsonobj.latitude + "," + jsonobj.longitude;
+    //     var popupBodyItem = $("#modalBody");
+    //     $(popupBodyItem).children().remove();
+    //
+    //
+    //     for (var z = 0; z < LayerInfo.length; z++) {
+    //
+    //         if (listLoca[z] === latlong) {
+    //             sitename = LayerInfo[z].Site_Name;
+    //             picpath = "../images/Placemark_Images/" + LayerInfo[z].Picture_Location;
+    //             sitedesc = LayerInfo[z].Site_Description;
+    //             siteurl = LayerInfo[z].Link_to_site_Location;
+    //             break;
+    //         }
+    //     }
+    //
+    //     var popupBodyName = $('<p class="modal-header"><h4>' + sitename + '</h4></p>');
+    //     var popupBodyDesc = $('<p class="modal-body">' + sitedesc + '</p><br>');
+    //     var popupBodyImg = $('<img class="modal-img" src="' + picpath + '" width=100% height=auto /><br>');
+    //     var popupBodyURL = $('<p class="modal-footer">Please click <a href="' + siteurl + '" target="_blank"><span id="href"><b>here</b></span></a> for more detailed information</p>');
+    //
+    //     popupBodyItem.append(popupBodyName);
+    //     popupBodyItem.append(popupBodyDesc);
+    //     popupBodyItem.append(popupBodyImg);
+    //     popupBodyItem.append(popupBodyURL);
+    // };
+    //
+    // Globe Placemark (Unnecessary)
     // var handleMouseCLK = function (o) {
     //
     //
@@ -733,5 +815,64 @@ requirejs(['./newGlobe'
     // };
     //
     // globe.addEventListener("click", handleMouseCLK);
+
+    var buttonPopUp = function(jsonobj) {
+        console.log(LayerInfo);
+        var sitename, sitedesc, picpath, siteurl;
+        var popupBodyItem = $("#modalBody");
+        $(popupBodyItem).children().remove();
+
+        // for (var z = 0; z < LayerInfo.length; z++) {
+        //
+        //     console.log(listLoca[z]);
+        //     console.log(jsonobj[z]);
+        //     if (listLoca[z] === jsonobj[z]) {
+        //         sitename = LayerInfo[z].Site_Name;
+        //         picpath = "../images/Placemark_Images/" + LayerInfo[z].Picture_Location;
+        //         sitedesc = LayerInfo[z].Site_Description;
+        //         siteurl = LayerInfo[z].Link_to_site_Location;
+        //         console.log(sitename);
+        //         return;
+        //
+        //
+        //     }
+        // }
+
+        for (var f = 0; f < jsonobj.length; f++) {
+
+            if (LayerInfo[f] === jsonobj[f]) {
+
+                sitename = LayerInfo[f].Site_Name;
+                picpath = "../images/Placemark_Images/" + LayerInfo[f].Picture_Location;
+                sitedesc = LayerInfo[f].Site_Description;
+                siteurl = LayerInfo[f].Link_to_site_Location;
+                console.log(sitename);
+                break;
+
+            }
+
+        }
+
+
+        var popupBodyName = $('<p class="site-name"><h4>' + sitename + '</h4></p>');
+        var popupBodyDesc = $('<p class="site-description">' + sitedesc + '</p><br>');
+        var popupBodyImg = $('<img class="site-img" alt="" src="' + picpath + '" /><br>');
+        var popupBodyURL = $('<p class="site-URL">Please click <a href="' + siteurl + '" target="_blank"><span id="href"><b>here</b></span></a> for more detailed information</p>');
+
+        popupBodyItem.append(popupBodyName);
+        popupBodyItem.append(popupBodyDesc);
+        popupBodyItem.append(popupBodyImg);
+        popupBodyItem.append(popupBodyURL);
+
+    };
+
+    $(document).ready(function () {
+        var SelectAll = document.getElementsByName('Station');
+        console.log(SelectAll);
+
+    });
+
+
+
 
 });

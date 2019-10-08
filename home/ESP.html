@@ -26,11 +26,6 @@
 <!--    <script src="Main.js"></script>-->
     <style>
         body {font-family: Arial, Helvetica, sans-serif;}
-
-        .btnsize {
-            width: 30%;
-            height: 20%;
-        }
     </style>
 </head>
 
@@ -134,30 +129,24 @@
     //     });
 
     function toggle(source) {
-        let checkboxes = document.getElementsByName('Station');
-        for(let i = 0, n = checkboxes.length; i < n; i++) {
+        let checkboxes = document.getElementsByName('Placemark');
+        // let checkedValue = null;
+        for (let i = 0, n = checkboxes.length; i < n; i++) {
             checkboxes[i].checked = source.checked;
+            // if (checkboxes[i].checked) {
+            //     checkedValue = checkboxes[i].value;
+            //     break;
+            // }
+
+//get the value of the check box with the check status
+
         }
     }
 
-
-    function button() {
-        $.getJSON("LayerNCC.json", function (layer) {
-            let CurrentToggleVal = $(this).val();
-            console.log(CurrentToggleVal);
-            for (let j = 0; j < layer.length; j++) {
-
-                if (CurrentToggleVal === layer[j].Layer_Name) {
-                    CreatePopupBox(layer[j]);
-                }
-            }
-        });
-    }
-
-    let CreatePopupBox = function (layerinfo) {
-        console.log(layerinfo);
-        console.log("It works 3000");
-    };
+    // let CreatePopupBox = function (layerinfo) {
+    //     console.log(layerinfo);
+    //     console.log("It works 3000");
+    // };
 
 </script>
 
@@ -197,7 +186,7 @@
 
                     <tr>
                         <th>Stations</th>
-                        <th>Show On Globe</th>
+                        <th><input type="submit" value="Show On Globe" class="plckJSON"></th>
                         <th>Live Comparison</th>
                         <th>Historical Information</th>
                         <th></th>
@@ -205,23 +194,29 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td><input type="checkbox" onclick="toggle(this)" value="Station 1-2"> All<br></td>
+                        <td><input type="checkbox" onclick="toggle(this)"> Select All<br></td>
                     </tr>
                     <tr>
                         <td>Station 1</td>
-                        <td><input class="switch right switch_right myModal" type="checkbox" value="Station 1" name="Station"></td>
+                        <td><input class="switch right switch_right" type="checkbox" value="Station 1" name="Placemark"></td>
                         <td><input type="checkbox"></td>
-                        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal"></button></td>
-                        <td><button onclick="button()" class="btn btn-info btn-lg btnsize" data-toggle="modal" data-target="#Modal">I</button></td>
-                        <td><button onclick="button()" class="btn btn-info btn-lg btnsize" data-toggle="modal" data-target="#Modal">H</button></td>
+                        <td><input type="checkbox" class=""></td>
+                        <td><button class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal" value="Station 1">I</button></td>
+                        <td><button class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal" value="Station 1">H</button></td>
                     </tr>
                     <tr>
                         <td>Station 2</td>
-                        <td><input class="switch right switch_right myModal" type="checkbox" value="Station 2" name="Station"></td>
+                        <td><input class="switch right switch_right" type="checkbox" value="Station 2" name="Placemark"></td>
                         <td><input type="checkbox"></td>
-                        <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal"></button></td>
-                        <td><button onclick="button()" class="btn btn-info btn-lg btnsize" data-toggle="modal" data-target="#Modal">I</button></td>
-                        <td><button onclick="button()" class="btn btn-info btn-lg btnsize" data-toggle="modal" data-target="#Modal">H</button></td>
+                        <td><input type="checkbox" class=""></td>
+                        <td><button class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal" value="Station 2">I</button></td>
+                        <td><button class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal" value="Station 2">H</button></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><input type="submit"></td>
                     </tr>
 
                 </table>
@@ -241,13 +236,16 @@
             <div class="modal-dialog">
 
                 <!-- Modal content-->
-                <div class="modal-content">
+                <div class="modal-content" id="modalContent">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
+                            <!-- <h4 class="modal-title"></h4> -->
                     </div>
-                    <div class="modal-body">
-                        <p>Some text in the modal.</p>
+                    <div class="modal-body" id="modalBody">
+
+                    </div>
+                    <div class="modal-img">
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
